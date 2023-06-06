@@ -2,7 +2,7 @@ const $table = document.getElementById("listMovies");
 const $tableBody = document.getElementById("tableBody")
 const $tableBodySearch = document.getElementById("tableBodySearch")
 
-
+const $btnReset = document.getElementById("btnReset")
 const $btnEnviar = document.getElementById("btnEnviar");
 const $btnRemove = document.querySelector('.remove')
 const $btnSearch = document.getElementById('btnSearch')
@@ -14,16 +14,33 @@ const $title = document.getElementById("title")
 const $gender = document.getElementById("gender")
 const $duration = document.getElementById("duration")
 const $director = document.getElementById("director")
+const listMovies = []
 
 const movies = new Map();
 let count = 0;
 
-$form.addEventListener('click', enviar);
+$form.addEventListener('click', save);
 $table.addEventListener('click', remove);
 $btnSearch.addEventListener('click', searcher);
+$btnReset.addEventListener('click',reset)
+
+function reset(){
+    
+    
+    if($inputSearch.value){
+        while($tableBodySearch.hasChildNodes()){
+            $tableBodySearch.removeChild($tableBodySearch.firstChild)
+        } 
+        $inputSearch.value = ''
+        $tableBody.classList.toggle("hidden")
+        $tableBodySearch.classList.toggle("hidden")
+        $btnSearch.disabled=false
+    }
+
+}
 
 
-function enviar(e){
+function save(e){
     e.preventDefault();
     const btnSelect = e.target;
 
@@ -34,42 +51,42 @@ function enviar(e){
 }
 
 function addMovie(){
+
     count = count+1;
         movies.set('id', count)
         movies.set('title',$title.value);
         movies.set('gender',$gender.value);
         movies.set('duration',$duration.value);
         movies.set('director',$director.value);
+        listMovies.push(movies)
         showTable();
 }
 
 function searcher(){
-    if($inputSearch.value){
         const fragment = new DocumentFragment();
+        const titlesMovies = document.getElementsByClassName('titleMovie')
+        
+        for(const element of titlesMovies){
+            if(element.textContent === $inputSearch.value){
+                console.log("Los encontre hps");
+                console.log(element.parentNode);
+                fragment.appendChild(element.parentNode)
 
-        if($inputSearch.value){
-            const movieToSearch = document.getElementsByClassName('titleMovie')           
-            for(const element of movieToSearch){
-                if(element.textContent === $inputSearch.value){
-                    const found = element
-                    console.log("aqui llego");
-                    console.log(found.parentNode);
-
-                    fragment.appendChild(found.parentNode)
-                    
-                    
-                }
-                
-                
             }
             $tableBodySearch.appendChild(fragment)
-
         }
+        // if($inputSearch.value){
+        //     const hijos = $tableBody.childNodes;
+        //     $tableBody.removeChild($tableBody.firstChild)
+        //     hijos.forEach(elements =>{
+        //         const columnas = elements.childNodes
+        //         console.log(columnas);
+        //     })
+        // }
         $tableBody.classList.toggle("hidden")
         $tableBodySearch.classList.toggle("hidden")
-    }
-
-
+        $btnSearch.disabled=true
+                
 }
 
 
@@ -83,6 +100,7 @@ function remove(e){
 
 function showTable(){
     const fragment = new DocumentFragment()
+
     const rowMovie = document.createElement('tr')
     const idMovie = document.createElement('th')
     idMovie.setAttribute('scope', 'row')
