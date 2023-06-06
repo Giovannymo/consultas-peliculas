@@ -10,10 +10,17 @@
 </head>
 <body>
 
-    <div class="container vh-100">
+    <div class="container-fluid vh-100">
 
-        <div id="formMovies" class="row g-3 bg-warning d-flex justify-content-center p-4">
-            <h1 class="text-center">Ingresa una pelicula</h1>
+        <div id="formMovies" class="row g-3 bg-success-subtle d-flex justify-content-center p-4">
+            <h1 class="text-center">Consultar pelicula</h1>
+              <div id="search" class="col col-md-4 d-flex flex-column align-items-center">
+                <input id="title" name="titulo" type="text" class="form-control" placeholder="Título" aria-label="titulo">
+                <button id="btnSearch" class="btn btn-success col-md-6 mt-2">Consultar  
+                </button>
+              </div>
+          
+          <h1 class="text-center">Ingresa una pelicula</h1>
             <div class="col col-md-2">
               <input id="title" name="titulo" type="text" class="form-control" placeholder="Título" aria-label="titulo">
             </div>
@@ -26,13 +33,17 @@
             <div class="col col-md-2">
                 <input id="director" name="director" type="text" class="form-control" placeholder="Director" aria-label="director">
             </div>
+            
             <button id="btnEnviar" class="btn btn-success col-md-2">Enviar
             </button>
+            
+              
         </div>
 
 
-        <div class="row  mt-5">
-            <table id="listMovies" class="table-borderless">
+        <div class="row  mt-5 ">
+          <div class="table-responsive col-md-12 d-flex justify-content-center">
+            <table id="listMovies" class="table-borderless col-md-8">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
@@ -43,8 +54,7 @@
                     <th scope="col">Eliminar</th>
                 </tr>
                 </thead>
-                  <tbody id="tableBody">
-           
+                  <tbody id="tableBody">           
                   <!--
                     <tr>
                       <th scope="row">1</th>
@@ -55,10 +65,8 @@
                   -->
                   </tbody>      
             </table>      
-            
+          </div>
         </div>
-
-
     </div>
 
 

@@ -1,8 +1,13 @@
 const $table = document.getElementById("listMovies");
 const $tableBody = document.getElementById("tableBody")
+
 const $btnEnviar = document.getElementById("btnEnviar");
+const $btnRemove = document.querySelector('.remove')
+const $btnSearch = document.getElementById('btnSearch')
+const $inputSearch = document.getElementById('title')
 
 const $form = document.getElementById("formMovies");
+
 const $title = document.getElementById("title")
 const $gender = document.getElementById("gender")
 const $duration = document.getElementById("duration")
@@ -12,6 +17,11 @@ const movies = new Map();
 let count = 0;
 
 $form.addEventListener('click', enviar);
+$table.addEventListener('click', remove);
+$btnSearch.addEventListener('click', searcher)
+
+
+
 
 function enviar(e){
     e.preventDefault();
@@ -33,6 +43,21 @@ function addMovie(){
         showTable();
 }
 
+function searcher(e){
+
+    
+    console.log($inputSearch);
+}
+
+
+function remove(e){
+    e.preventDefault();
+    const btnSelect = e.target.classList[2];
+    if(btnSelect === 'remove'){
+        $tableBody.removeChild(e.target.parentNode)
+    }
+}
+
 function showTable(){
     const rowMovie = document.createElement('tr')
     const idMovie = document.createElement('th')
@@ -50,8 +75,7 @@ function showTable(){
     }
     const btnRemove = document.createElement('button')
     btnRemove.textContent= "Eliminar"
-    btnRemove.setAttribute("class", "btn btn-danger")
-    btnRemove.setAttribute("id", movies.get('id'))
+    btnRemove.setAttribute("class", "btn btn-danger remove")
     rowMovie.appendChild(btnRemove)
 
     $tableBody.appendChild(rowMovie)    
