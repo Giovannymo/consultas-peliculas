@@ -1,10 +1,12 @@
 const $table = document.getElementById("listMovies");
 const $tableBody = document.getElementById("tableBody")
+const $tableBodySearch = document.getElementById("tableBodySearch")
+
 
 const $btnEnviar = document.getElementById("btnEnviar");
 const $btnRemove = document.querySelector('.remove')
 const $btnSearch = document.getElementById('btnSearch')
-const $inputSearch = document.getElementById('title')
+const $inputSearch = document.getElementById('searchInput')
 
 const $form = document.getElementById("formMovies");
 
@@ -18,9 +20,7 @@ let count = 0;
 
 $form.addEventListener('click', enviar);
 $table.addEventListener('click', remove);
-$btnSearch.addEventListener('click', searcher)
-
-
+$btnSearch.addEventListener('click', searcher);
 
 
 function enviar(e){
@@ -43,10 +43,33 @@ function addMovie(){
         showTable();
 }
 
-function searcher(e){
+function searcher(){
+    if($inputSearch.value){
+        const fragment = new DocumentFragment();
 
-    
-    console.log($inputSearch);
+        if($inputSearch.value){
+            const movieToSearch = document.getElementsByClassName('titleMovie')           
+            for(const element of movieToSearch){
+                if(element.textContent === $inputSearch.value){
+                    const found = element
+                    console.log("aqui llego");
+                    console.log(found.parentNode);
+
+                    fragment.appendChild(found.parentNode)
+                    
+                    
+                }
+                
+                
+            }
+            $tableBodySearch.appendChild(fragment)
+
+        }
+        $tableBody.classList.toggle("hidden")
+        $tableBodySearch.classList.toggle("hidden")
+    }
+
+
 }
 
 
@@ -59,17 +82,20 @@ function remove(e){
 }
 
 function showTable(){
+    const fragment = new DocumentFragment()
     const rowMovie = document.createElement('tr')
     const idMovie = document.createElement('th')
     idMovie.setAttribute('scope', 'row')
     idMovie.textContent = movies.get('id')
     rowMovie.appendChild(idMovie)
-
     for(const [key, value] of movies){
         if(key !== 'id'){
             const columnMovie = document.createElement('td')
             columnMovie.textContent = value
             columnMovie.setAttribute("class", "p-2" )
+            if(key === 'title'){
+                columnMovie.setAttribute('class', 'titleMovie')
+            }
             rowMovie.appendChild(columnMovie)
         }
     }
@@ -77,8 +103,10 @@ function showTable(){
     btnRemove.textContent= "Eliminar"
     btnRemove.setAttribute("class", "btn btn-danger remove")
     rowMovie.appendChild(btnRemove)
-
-    $tableBody.appendChild(rowMovie)    
+    
+    
+    fragment.appendChild(rowMovie)
+    $tableBody.appendChild(fragment)    
 
 
 }
